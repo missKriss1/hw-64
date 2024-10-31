@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axiosApi from '../../axiosApi';
-import Spinner from '../Spinner/Spinner.tsx';
+import { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axiosApi from "../../axiosApi";
+import Spinner from "../Spinner/Spinner.tsx";
 
 const initialState = {
-  title: '',
-  content: '',
+  title: "",
+  content: "",
 };
 
 const PageItem = () => {
@@ -24,7 +24,7 @@ const PageItem = () => {
       }
     } catch (error) {
       console.error(error);
-    }finally {
+    } finally {
       setLoading(false);
     }
   }, [params.pageName]);
@@ -36,14 +36,13 @@ const PageItem = () => {
   return (
     <>
       {loading ? (
-        <Spinner/>
-      ): (
+        <Spinner />
+      ) : (
         <div className="container text-center mt-5">
           <h1>{page.title}</h1>
           <strong>{page.content}</strong>
         </div>
-      )
-      }
+      )}
     </>
   );
 };

@@ -1,66 +1,68 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axiosApi from '../../axiosApi';
-import * as React from 'react';
-import Spinner from '../Spinner/Spinner.tsx';
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axiosApi from "../../axiosApi.ts";
+import * as React from "react";
+import Spinner from "../../Components/Spinner/Spinner.tsx";
 
 const initialState = {
-  title: '',
-  content: '',
+  title: "",
+  content: "",
 };
 
 const Admin = () => {
-  const [pageName, setPageName] = useState('');
+  const [pageName, setPageName] = useState("");
   const [editPage, setEditPage] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const fetchPageOne = useCallback(async (name:string) => {
+  const fetchPageOne = useCallback(async (name: string) => {
     setLoading(true);
     try {
       const response = await axiosApi.get(`/pages/${name}.json`);
       if (response.data) {
         setEditPage(response.data);
-      }else{
-        setEditPage(initialState)
+      } else {
+        setEditPage(initialState);
       }
     } catch (error) {
       console.error(error);
-      setEditPage(initialState)
-    }finally {
+      setEditPage(initialState);
+    } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(()=>{
-    void fetchPageOne(pageName)
-  },[fetchPageOne, pageName])
+  useEffect(() => {
+    void fetchPageOne(pageName);
+  }, [fetchPageOne, pageName]);
 
-  const editTextByInput = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const editTextByInput = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) => {
     const { name, value } = e.target;
-    if(!editPage) return;
+    if (!editPage) return;
     setEditPage((prevState) => {
       return {
         ...prevState,
-        [name]: value
-      }
+        [name]: value,
+      };
     });
   };
 
   const formChange = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    if(editPage.title.trim() !== '' && editPage.content.trim() !== '') {
+    if (editPage.title.trim() !== "" && editPage.content.trim() !== "") {
       try {
         await axiosApi.put(`/pages/${pageName}.json`, editPage);
         navigate(`/pages/${pageName}`);
       } catch (error) {
-        console.error('Error saving page:', error);
+        console.error("Error saving page:", error);
       } finally {
         setLoading(false);
       }
-    }else{
-      alert('Fill in the fields')
+    } else {
+      alert("Fill in the fields");
     }
   };
 
@@ -73,12 +75,16 @@ const Admin = () => {
   return (
     <>
       {loading ? (
-        <Spinner/>
-      ): (
+        <Spinner />
+      ) : (
         <div className="container w-50 mt-4">
           <h3>Edit Page</h3>
           <label className="form-label mt-3 mb-">Select Page:</label>
-          <select value={pageName} onChange={selectChange} className="form-select">
+          <select
+            value={pageName}
+            onChange={selectChange}
+            className="form-select"
+          >
             <option value="about">About</option>
             <option value="contacts">Contacts</option>
             <option value="divisions">Divisions</option>
@@ -100,12 +106,14 @@ const Admin = () => {
               value={editPage.content}
               onChange={editTextByInput}
             />
-            <button className="mt-4" type="submit">Save</button>
+            <button className="mt-4" type="submit">
+              Save
+            </button>
           </form>
         </div>
-        )}
+      )}
     </>
-      );
-      };
+  );
+};
 
-      export default Admin;
+export default Admin;

@@ -1,4 +1,3 @@
-
 const Spinner = () => {
   return (
     <div className="text-center mt-4">
