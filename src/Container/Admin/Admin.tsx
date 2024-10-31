@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosApi from "../../axiosApi.ts";
-import * as React from "react";
 import Spinner from "../../Components/Spinner/Spinner.tsx";
 
 const initialState = {
@@ -26,7 +25,6 @@ const Admin = () => {
       }
     } catch (error) {
       console.error(error);
-      setEditPage(initialState);
     } finally {
       setLoading(false);
     }
@@ -36,17 +34,12 @@ const Admin = () => {
     void fetchPageOne(pageName);
   }, [fetchPageOne, pageName]);
 
-  const editTextByInput = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ) => {
+  const editTextByInput = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (!editPage) return;
-    setEditPage((prevState) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
+    setEditPage((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const formChange = async (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -68,6 +61,7 @@ const Admin = () => {
 
   const selectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const name = e.target.value;
+    console.log(name)
     setPageName(name);
     void fetchPageOne(name);
   };
@@ -85,6 +79,7 @@ const Admin = () => {
             onChange={selectChange}
             className="form-select"
           >
+            <option>Select</option>
             <option value="about">About</option>
             <option value="contacts">Contacts</option>
             <option value="divisions">Divisions</option>

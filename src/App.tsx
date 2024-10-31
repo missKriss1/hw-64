@@ -11,9 +11,9 @@ const App = () => {
         <TollBar></TollBar>
       </header>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/pages/:pageName" element={<PageItem />} />
-        <Route path="/pages/admin" element={<Admin />} />
+        <Route path="/" element={<Home />}/>
+        <Route path="/pages/:pageName" element={<PageItem/>}/>
+        <Route path="/pages/admin" element={<Admin/>}/>
       </Routes>
     </>
   );
